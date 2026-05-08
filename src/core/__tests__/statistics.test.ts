@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { StatisticsCollector } from '../statistics';
 import { DuplicateGroup, DeleteResult } from '../../types';
 
@@ -68,6 +68,52 @@ describe('StatisticsCollector', () => {
       const stats = collector.aggregate(100, groups, deleteResults);
       expect(stats.filesDeleted).toBe(1);
       expect(stats.deletionsFailed).toBe(1);
+    });
+  });
+
+  describe('display methods', () => {
+    it('should display scan results', () => {
+      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const stats = collector.aggregate(100, [createGroup([1000, 1050])], []);
+      
+      collector.displayScanResults(stats, [createGroup([1000, 1050])]);
+      
+      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Scan completed'));
+      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Files scanned: 100'));
+      consoleSpy.mockRestore();
+    });
+
+    it('should display groups', () => {
+      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const groups = [createGroup([1000, 1050])];
+      
+      collector.displayGroups(groups);
+      
+      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Group #1'));
+      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('[KEEP]'));
+      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('[DELETE]'));
+      consoleSpy.mockRestore();
+    });
+
+    it('should display deletion results', () => {
+      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const stats = collector.aggregate(100, [], [{ success: true, path: 'test' }]);
+      
+      collector.displayDeletionResults(stats);
+      
+      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Deletion Summary'));
+      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Files deleted: 1'));
+      consoleSpy.mockRestore();
+    });
+
+    it('should display failed deletions if any', () => {
+      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const stats = collector.aggregate(100, [], [{ success: false, path: 'test', error: 'err' }]);
+      
+      collector.displayDeletionResults(stats);
+      
+      expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Deletions failed: 1'));
+      consoleSpy.mockRestore();
     });
   });
 });
