@@ -75,9 +75,9 @@ describe('StatisticsCollector', () => {
     it('should display scan results', () => {
       const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
       const stats = collector.aggregate(100, [createGroup([1000, 1050])], []);
-      
+
       collector.displayScanResults(stats, [createGroup([1000, 1050])]);
-      
+
       expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Scan completed'));
       expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Files scanned: 100'));
       consoleSpy.mockRestore();
@@ -86,9 +86,9 @@ describe('StatisticsCollector', () => {
     it('should display groups', () => {
       const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
       const groups = [createGroup([1000, 1050])];
-      
+
       collector.displayGroups(groups);
-      
+
       expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Group #1'));
       expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('[KEEP]'));
       expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('[DELETE]'));
@@ -98,9 +98,9 @@ describe('StatisticsCollector', () => {
     it('should display deletion results', () => {
       const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
       const stats = collector.aggregate(100, [], [{ success: true, path: 'test' }]);
-      
+
       collector.displayDeletionResults(stats);
-      
+
       expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Deletion Summary'));
       expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Files deleted: 1'));
       consoleSpy.mockRestore();
@@ -109,9 +109,9 @@ describe('StatisticsCollector', () => {
     it('should display failed deletions if any', () => {
       const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
       const stats = collector.aggregate(100, [], [{ success: false, path: 'test', error: 'err' }]);
-      
+
       collector.displayDeletionResults(stats);
-      
+
       expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Deletions failed: 1'));
       consoleSpy.mockRestore();
     });

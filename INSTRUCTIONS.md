@@ -56,18 +56,18 @@ User Settings (src/settings.ts)
 
 ### Module Responsibilities
 
-| Module | Responsibility | Key exports |
-|--------|----------------|-------------|
-| `main.ts` | Entry point, CLI flow control | `main()` |
-| `settings.ts` | Configuration (scanPath, tolerance, dryMode) | `settings` |
-| `core/scanner.ts` | Recursively finds all files in a directory | `scanDirectory()` |
-| `core/comparator.ts` | Logic to decide if two files are similar | `areFilesSimilar()` |
-| `core/duplicateFinder.ts` | Groups similar files into sets | `findDuplicates()` |
-| `core/deleter.ts` | Handles deletion with user prompts | `deleteDuplicates()` |
-| `core/statistics.ts` | Formats and displays final results | `displayStatistics()` |
-| `utils/pathUtils.ts` | Path manipulation and ignore pattern checks | `isIgnored()`, `getRelativePath()` |
-| `utils/formatUtils.ts` | Number and byte formatting | `formatBytes()`, `formatNumber()` |
-| `types/index.ts` | Shared TypeScript interfaces | `Settings`, `FileInfo`, `DuplicateGroup` |
+| Module                    | Responsibility                               | Key exports                              |
+| ------------------------- | -------------------------------------------- | ---------------------------------------- |
+| `main.ts`                 | Entry point, CLI flow control                | `main()`                                 |
+| `settings.ts`             | Configuration (scanPath, tolerance, dryMode) | `settings`                               |
+| `core/scanner.ts`         | Recursively finds all files in a directory   | `scanDirectory()`                        |
+| `core/comparator.ts`      | Logic to decide if two files are similar     | `areFilesSimilar()`                      |
+| `core/duplicateFinder.ts` | Groups similar files into sets               | `findDuplicates()`                       |
+| `core/deleter.ts`         | Handles deletion with user prompts           | `deleteDuplicates()`                     |
+| `core/statistics.ts`      | Formats and displays final results           | `displayStatistics()`                    |
+| `utils/pathUtils.ts`      | Path manipulation and ignore pattern checks  | `isIgnored()`, `getRelativePath()`       |
+| `utils/formatUtils.ts`    | Number and byte formatting                   | `formatBytes()`, `formatNumber()`        |
+| `types/index.ts`          | Shared TypeScript interfaces                 | `Settings`, `FileInfo`, `DuplicateGroup` |
 
 ### Data Flow
 
@@ -108,11 +108,13 @@ pnpm lint
 #### VS Code (Recommended)
 
 Essential extensions:
+
 - ESLint
 - Prettier
 - TypeScript and JavaScript Language Features
 
 `.vscode/settings.json`:
+
 ```json
 {
   "editor.formatOnSave": true,
@@ -160,16 +162,21 @@ pnpm lint
 ## Module Documentation
 
 ### Scanner (`src/core/scanner.ts`)
+
 Uses standard `fs` promises. Handles permission errors gracefully by logging a warning and continuing. Skips symbolic links.
 
 ### Comparator (`src/core/comparator.ts`)
+
 The "brain" of the similarity logic.
+
 - Extension Match: `extname(fileA) === extname(fileB)`
 - Size Tolerance: `abs(sizeA - sizeB) <= tolerance`
 - Name Containment: `nameA.includes(nameB) || nameB.includes(nameA)`
 
 ### Statistics (`src/core/statistics.ts`)
+
 Calculates:
+
 - Scanned count
 - Similar groups count
 - Duplicate files count
@@ -218,6 +225,7 @@ pnpm test:coverage  # Generate coverage report
 ```bash
 pnpm build
 ```
+
 This generates the JavaScript code in the `dist/` directory.
 
 ### Running the Production Build
@@ -235,12 +243,15 @@ node dist/main.js
 ## Troubleshooting
 
 ### "Progress seems stuck"
+
 This usually happens when scanning very large volumes or network drives. Check if `ignorePaths` is covering large system folders like `node_modules`.
 
 ### "Permissions errors"
+
 Ensure you have read access to the `scanPath`. The tool will report specific files it cannot access.
 
 ### "No duplicates found"
+
 - Verify that `sizeToleranceBytes` is high enough.
 - Ensure extensions are exactly the same (case-insensitive in some OS, but tool handles them specifically).
 - Check if `ignorePaths` is too broad.
@@ -248,21 +259,23 @@ Ensure you have read access to the `scanPath`. The tool will report specific fil
 ## Best Practices
 
 ### Code Quality
+
 - **Type Safety**: Never use `any`. Define interfaces in `src/types/index.ts`.
 - **Pure Functions**: Keep utility functions pure for easier testing.
 - **Error Handling**: Always catch and surface filesystem errors with meaningful messages.
 
 ### Security
+
 - **Dry Mode**: Always default `dryMode` to `true` in code and documentation.
 - **Path Validation**: Use `path.resolve` and `path.normalize` to ensure paths remain within intended boundaries.
 
 ## Author
 
-* **Or Assayag** - *Initial work* - [orassayag](https://github.com/orassayag)
-* Or Assayag <orassayag@gmail.com>
-* GitHub: https://github.com/orassayag
-* StackOverflow: https://stackoverflow.com/users/4442606/or-assayag?tab=profile
-* LinkedIn: https://linkedin.com/in/orassayag
+- **Or Assayag** - _Initial work_ - [orassayag](https://github.com/orassayag)
+- Or Assayag <orassayag@gmail.com>
+- GitHub: https://github.com/orassayag
+- StackOverflow: https://stackoverflow.com/users/4442606/or-assayag?tab=profile
+- LinkedIn: https://linkedin.com/in/orassayag
 
 ## License
 
