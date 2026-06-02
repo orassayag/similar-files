@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { Comparator } from '../comparator';
+import { Comparator } from '..';
 import { FileInfo } from '../../types';
 
 describe('Comparator', () => {
@@ -43,7 +43,12 @@ describe('Comparator', () => {
 
     it('should return true for "Copy of" prefix pattern', () => {
       const fileA = createFileInfo('/path/Or.txt', 'Or', '.txt', 1000);
-      const fileB = createFileInfo('/path/Copy of Or.txt', 'Copy of Or', '.txt', 1050);
+      const fileB = createFileInfo(
+        '/path/Copy of Or.txt',
+        'Copy of Or',
+        '.txt',
+        1050
+      );
       expect(comparator.areSimilar(fileA, fileB, 100)).toBe(true);
     });
 
@@ -85,7 +90,12 @@ describe('Comparator', () => {
 
     it('should handle empty extension files', () => {
       const fileA = createFileInfo('/path/README', 'README', '', 1000);
-      const fileB = createFileInfo('/path/README_copy', 'README_copy', '', 1050);
+      const fileB = createFileInfo(
+        '/path/README_copy',
+        'README_copy',
+        '',
+        1050
+      );
       expect(comparator.areSimilar(fileA, fileB, 100)).toBe(true);
     });
 

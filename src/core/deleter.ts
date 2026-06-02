@@ -1,10 +1,12 @@
 import { rm } from 'fs/promises';
 import { createInterface } from 'readline';
 import { DuplicateGroup, DeleteResult } from '../types';
-import { formatBytes } from '../utils/formatUtils';
+import { formatBytes } from '../utils';
 
 export class Deleter {
-  async deleteWithConfirmation(groups: DuplicateGroup[]): Promise<DeleteResult[]> {
+  async deleteWithConfirmation(
+    groups: DuplicateGroup[]
+  ): Promise<DeleteResult[]> {
     const results: DeleteResult[] = [];
     let groupNumber = 1;
     for (const group of groups) {
@@ -43,7 +45,9 @@ export class Deleter {
   ): Promise<'yes' | 'no' | 'quit'> {
     const totalSize = group.reduce((sum: number, file) => sum + file.size, 0);
     console.log('\n═══════════════════════════════════════');
-    console.log(`Group #${groupNumber} (${group.length} files, ${formatBytes(totalSize)})`);
+    console.log(
+      `Group #${groupNumber} (${group.length} files, ${formatBytes(totalSize)})`
+    );
     console.log('═══════════════════════════════════════');
     console.log(`[KEEP]   ${group[0].path} (${group[0].size} bytes)`);
     for (let i = 1; i < group.length; i++) {

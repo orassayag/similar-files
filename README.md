@@ -1,10 +1,32 @@
-# Similar Files Detector
+# Similar Files
 
 A TypeScript CLI tool that recursively scans directories to identify and optionally delete similar files based on name containment (case-sensitive, same extension) and size tolerance (configurable byte difference).
 
 Built in March 2026, this CLI utility analyzes file patterns, compares sizes within thresholds, flags potential duplicates, and provides interactive or automated cleanup options with detailed reporting for safe and efficient file management.
 
 ## Features
+
+### Core Capabilities
+
+- **Recursive Scanning**: Scans all files in a directory and its subdirectories
+- **Smart Detection**: Identifies similar files based on name similarity, extension, and size tolerance
+- **Safety First**: Dry mode by default, per-group deletion confirmation
+- **Flexible Ignoring**: Skip specific paths (e.g., node_modules, .git)
+- **Real-time Progress**: Live scanning progress with file counts
+
+### Technical Excellence
+
+- **Type Safety**: Full TypeScript with strict type checking
+- **Comprehensive Testing**: Unit and integration tests with Vitest
+- **High Performance**: Optimized algorithms for handling large file sets
+- **Zero Runtime Dependencies**: Lightweight and secure architecture
+
+### Developer Experience
+
+- **Easy Setup**: Simple installation and configuration flow
+- **Modern Tooling**: Built with pnpm, Vitest, and ESLint
+- **Clear Documentation**: Comprehensive README and developer instructions
+- **Interactive CLI**: Rich terminal interface with real-time updates
 
 - 🔍 **Recursive Scanning**: Scans all files in a directory and its subdirectories
 - 📊 **Smart Detection**: Identifies similar files based on:
@@ -16,6 +38,13 @@ Built in March 2026, this CLI utility analyzes file patterns, compares sizes wit
 - 📈 **Real-time Progress**: Live scanning progress with file counts
 - 📋 **Comprehensive Statistics**: Detailed reports on duplicates and space savings
 - 🗑️ **Safe Deletion**: Interactive confirmation for each group of duplicates
+
+## Getting Started
+
+### Prerequisites
+
+- **Node.js**: v18 or higher
+- **pnpm**: v8 or higher (recommended)
 
 ## Installation
 
@@ -68,6 +97,15 @@ pnpm start
    - `y` or `yes` - Delete duplicates in this group
    - `n` or `no` - Skip this group
    - `q` or `quit` - Cancel entire deletion process
+
+## Available Scripts
+
+- `pnpm start`: Run the tool in dry mode (default)
+- `pnpm build`: Compile TypeScript to JavaScript
+- `pnpm test`: Run unit tests
+- `pnpm test:watch`: Run tests in watch mode
+- `pnpm lint`: Run ESLint
+- `pnpm prettier:fix`: Format code with Prettier
 
 ## How Similar Files are Detected
 
@@ -143,6 +181,13 @@ When duplicates are found:
 - ✅ **Detailed logging** - All actions are logged
 - ✅ **Ignore patterns** - Protect critical directories
 
+## Best Practices
+
+- **Always use Dry Mode**: Verify the results before disabling `dryMode` in settings
+- **Configure Ignore Paths**: Skip large directories like `node_modules` or `.git` to speed up scanning
+- **Review Statistics**: Check the potential space saved and duplicate counts before proceeding with deletion
+- **Backup Important Data**: Always have a backup of your files before running any deletion tool
+
 ## Development
 
 ### Build
@@ -159,7 +204,7 @@ pnpm test
 
 ### Run Tests in Watch Mode
 
-```bash
+```
 pnpm test:watch
 ```
 
@@ -174,6 +219,54 @@ pnpm lint
 ```bash
 pnpm prettier:fix
 ```
+
+## Architecture Principles
+
+- **Safety First**: Default to dry mode to prevent accidental deletions
+- **Efficiency**: Optimized file scanning and comparison for large directories
+- **Transparency**: Detailed statistics and real-time progress reporting
+- **Cross-Platform**: Seamless operation across Windows, macOS, and Linux
+
+## Architecture
+
+The application is structured into a core logic layer and a utility layer, orchestrated by a main entry point.
+
+```
+src/settings.ts (Configuration)
+        ↓
+    src/main.ts (Orchestrator)
+        ↓
+    src/core/scanner.ts (Recursive Traversal)
+        ↓
+    src/core/comparator.ts (Similarity Logic)
+        ↓
+    src/core/duplicateFinder.ts (Grouping)
+        ↓
+    src/core/deleter.ts (Interactive Deletion)
+        ↓
+    src/core/statistics.ts (Reporting)
+```
+
+### Directory Structure
+
+```
+similar-files/
+├── src/
+│   ├── core/           # Business logic
+│   ├── types/          # TypeScript definitions
+│   ├── utils/          # Helper functions
+│   ├── main.ts         # Entry point
+│   └── settings.ts     # Configuration
+├── test-data/          # Mock files for testing
+├── package.json
+└── README.md
+```
+
+### Design Patterns
+
+- **Orchestrator Pattern**: `main.ts` manages the flow between specialized modules
+- **Functional Utilities**: Pure functions for path manipulation and formatting
+- **Type-Driven Development**: Comprehensive TypeScript interfaces for all data structures
 
 ## Project Structure
 
@@ -284,6 +377,13 @@ Contributions are welcome! Please ensure:
 
 ⚠️ **IMPORTANT**: Always run in dry mode first to review what will be deleted. Deleted files cannot be recovered. Use at your own risk.
 
+## Support
+
+For issues, questions, or contributions:
+
+- **GitHub Issues**: [https://github.com/orassayag/similar-files/issues](https://github.com/orassayag/similar-files/issues)
+- **Email**: orassayag@gmail.com
+
 ## Author
 
 - **Or Assayag** - _Initial work_ - [orassayag](https://github.com/orassayag)
@@ -295,3 +395,10 @@ Contributions are welcome! Please ensure:
 ## License
 
 This application has an MIT license - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Built for educational and research purposes
+- Respects robots.txt and implements rate limiting
+- Uses user-agent rotation to avoid detection
+- Implements polite crawling practices

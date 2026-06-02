@@ -7,11 +7,6 @@ export interface FileInfo {
 
 export type DuplicateGroup = FileInfo[];
 
-export interface ScanResult {
-  totalFiles: number;
-  duplicateGroups: DuplicateGroup[];
-}
-
 export interface DeleteResult {
   success: boolean;
   path: string;

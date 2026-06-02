@@ -1,5 +1,5 @@
 import { FileInfo, DuplicateGroup } from '../types';
-import { Comparator } from './comparator';
+import { Comparator } from '.';
 
 export class DuplicateFinder {
   private comparator: Comparator;
@@ -8,14 +8,20 @@ export class DuplicateFinder {
     this.comparator = new Comparator();
   }
 
-  findDuplicates(files: FileInfo[], sizeToleranceBytes: number): DuplicateGroup[] {
+  findDuplicates(
+    files: FileInfo[],
+    sizeToleranceBytes: number
+  ): DuplicateGroup[] {
     const extensionGroups = this.groupByExtension(files);
     const allGroups: DuplicateGroup[] = [];
     for (const extensionFiles of extensionGroups.values()) {
       if (extensionFiles.length < 2) {
         continue;
       }
-      const groups = this.findGroupsInExtension(extensionFiles, sizeToleranceBytes);
+      const groups = this.findGroupsInExtension(
+        extensionFiles,
+        sizeToleranceBytes
+      );
       allGroups.push(...groups);
     }
     return allGroups;
@@ -33,7 +39,10 @@ export class DuplicateFinder {
     return groups;
   }
 
-  private findGroupsInExtension(files: FileInfo[], sizeToleranceBytes: number): DuplicateGroup[] {
+  private findGroupsInExtension(
+    files: FileInfo[],
+    sizeToleranceBytes: number
+  ): DuplicateGroup[] {
     const n = files.length;
     const parent = new Array(n);
     for (let i = 0; i < n; i++) {
@@ -54,7 +63,9 @@ export class DuplicateFinder {
     };
     for (let i = 0; i < n; i++) {
       for (let j = i + 1; j < n; j++) {
-        if (this.comparator.areSimilar(files[i], files[j], sizeToleranceBytes)) {
+        if (
+          this.comparator.areSimilar(files[i], files[j], sizeToleranceBytes)
+        ) {
           union(i, j);
         }
       }
@@ -67,6 +78,8 @@ export class DuplicateFinder {
       }
       groupMap.get(root)!.push(files[i]);
     }
-    return Array.from(groupMap.values()).filter((group: DuplicateGroup) => group.length >= 2);
+    return Array.from(groupMap.values()).filter(
+      (group: DuplicateGroup) => group.length >= 2
+    );
   }
 }

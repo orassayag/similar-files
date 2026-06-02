@@ -114,14 +114,19 @@ src/
 ### Example Code Style
 
 ```typescript
-export function areSimilar(fileA: FileInfo, fileB: FileInfo, tolerance: number): boolean {
+export function areSimilar(
+  fileA: FileInfo,
+  fileB: FileInfo,
+  tolerance: number
+): boolean {
   if (fileA.path === fileB.path) {
     return false;
   }
   if (fileA.extension !== fileB.extension) {
     return false;
   }
-  const nameMatch = fileA.name.includes(fileB.name) || fileB.name.includes(fileA.name);
+  const nameMatch =
+    fileA.name.includes(fileB.name) || fileB.name.includes(fileA.name);
   if (!nameMatch) {
     return false;
   }

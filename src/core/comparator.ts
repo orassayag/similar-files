@@ -1,7 +1,11 @@
 import { FileInfo } from '../types';
 
 export class Comparator {
-  areSimilar(fileA: FileInfo, fileB: FileInfo, sizeToleranceBytes: number): boolean {
+  areSimilar(
+    fileA: FileInfo,
+    fileB: FileInfo,
+    sizeToleranceBytes: number
+  ): boolean {
     if (fileA.path === fileB.path) {
       return false;
     }
@@ -11,7 +15,8 @@ export class Comparator {
     if (!fileA.name || !fileB.name) {
       return false;
     }
-    const nameMatch = fileA.name.includes(fileB.name) || fileB.name.includes(fileA.name);
+    const nameMatch =
+      fileA.name.includes(fileB.name) || fileB.name.includes(fileA.name);
     if (!nameMatch) {
       return false;
     }

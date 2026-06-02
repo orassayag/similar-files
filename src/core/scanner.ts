@@ -1,9 +1,12 @@
 import { readdir, stat } from 'fs/promises';
 import { join, parse } from 'path';
 import { FileInfo } from '../types';
-import { shouldIgnorePath } from '../utils/pathUtils';
+import { shouldIgnorePath } from '../utils';
 
-export type ScanProgressCallback = (currentPath: string, foundCount: number) => void;
+export type ScanProgressCallback = (
+  currentPath: string,
+  foundCount: number
+) => void;
 
 export class Scanner {
   private foundFiles: FileInfo[] = [];
@@ -32,7 +35,10 @@ export class Scanner {
     }
   }
 
-  private async scanDirectory(currentPath: string, ignorePaths: string[]): Promise<void> {
+  private async scanDirectory(
+    currentPath: string,
+    ignorePaths: string[]
+  ): Promise<void> {
     if (shouldIgnorePath(currentPath, ignorePaths)) {
       return;
     }
@@ -62,14 +68,19 @@ export class Scanner {
             this.updateProgress(currentPath);
           }
         } catch (error) {
-          const errorMessage = error instanceof Error ? error.message : String(error);
-          if (!errorMessage.includes('EACCES') && !errorMessage.includes('EPERM')) {
+          const errorMessage =
+            error instanceof Error ? error.message : String(error);
+          if (
+            !errorMessage.includes('EACCES') &&
+            !errorMessage.includes('EPERM')
+          ) {
             console.error(`\nError processing ${fullPath}:`, error);
           }
         }
       }
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
       if (!errorMessage.includes('EACCES') && !errorMessage.includes('EPERM')) {
         console.error(`\nError scanning directory ${currentPath}:`, error);
       }

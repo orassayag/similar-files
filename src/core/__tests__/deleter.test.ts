@@ -1,5 +1,13 @@
-import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
-import { Deleter } from '../deleter';
+import {
+  describe,
+  it,
+  expect,
+  vi,
+  beforeEach,
+  afterEach,
+  type Mock,
+} from 'vitest';
+import { Deleter } from '..';
 import { rm } from 'fs/promises';
 import { createInterface } from 'readline';
 
@@ -14,12 +22,18 @@ describe('Deleter', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.spyOn(console, 'log').mockImplementation(() => {});
+    vi.spyOn(console, 'error').mockImplementation(() => {});
     mockQuestion = vi.fn();
     mockClose = vi.fn();
     vi.mocked(createInterface).mockReturnValue({
       question: mockQuestion,
       close: mockClose,
     } as unknown as Interface);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   describe('deleteWithConfirmation', () => {
@@ -43,7 +57,9 @@ describe('Deleter', () => {
         ],
       ];
 
-      mockQuestion.mockImplementation((_q: string, cb: (answer: string) => void) => cb('y'));
+      mockQuestion.mockImplementation(
+        (_q: string, cb: (answer: string) => void) => cb('y')
+      );
 
       const results = await deleter.deleteWithConfirmation(groups);
 
@@ -61,7 +77,9 @@ describe('Deleter', () => {
         ],
       ];
 
-      mockQuestion.mockImplementation((_q: string, cb: (answer: string) => void) => cb('n'));
+      mockQuestion.mockImplementation(
+        (_q: string, cb: (answer: string) => void) => cb('n')
+      );
 
       const results = await deleter.deleteWithConfirmation(groups);
 
@@ -74,15 +92,27 @@ describe('Deleter', () => {
       const groups = [
         [
           { path: 'keep1.txt', size: 100, name: 'keep1', extension: '.txt' },
-          { path: 'delete1.txt', size: 100, name: 'delete1', extension: '.txt' },
+          {
+            path: 'delete1.txt',
+            size: 100,
+            name: 'delete1',
+            extension: '.txt',
+          },
         ],
         [
           { path: 'keep2.txt', size: 100, name: 'keep2', extension: '.txt' },
-          { path: 'delete2.txt', size: 100, name: 'delete2', extension: '.txt' },
+          {
+            path: 'delete2.txt',
+            size: 100,
+            name: 'delete2',
+            extension: '.txt',
+          },
         ],
       ];
 
-      mockQuestion.mockImplementation((_q: string, cb: (answer: string) => void) => cb('q'));
+      mockQuestion.mockImplementation(
+        (_q: string, cb: (answer: string) => void) => cb('q')
+      );
 
       const results = await deleter.deleteWithConfirmation(groups);
 
@@ -99,7 +129,9 @@ describe('Deleter', () => {
         ],
       ];
 
-      mockQuestion.mockImplementation((_q: string, cb: (answer: string) => void) => cb('y'));
+      mockQuestion.mockImplementation(
+        (_q: string, cb: (answer: string) => void) => cb('y')
+      );
       vi.mocked(rm).mockRejectedValue(new Error('Permission denied'));
 
       const results = await deleter.deleteWithConfirmation(groups);
@@ -120,7 +152,9 @@ describe('Deleter', () => {
         ],
       ];
 
-      mockQuestion.mockImplementation((_q: string, cb: (answer: string) => void) => cb('y'));
+      mockQuestion.mockImplementation(
+        (_q: string, cb: (answer: string) => void) => cb('y')
+      );
       vi.mocked(rm).mockRejectedValue('Unknown error');
 
       const results = await deleter.deleteWithConfirmation(groups);

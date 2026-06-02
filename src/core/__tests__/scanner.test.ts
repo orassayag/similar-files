@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { Scanner } from '../scanner';
+import { Scanner } from '..';
 import { readdir, stat } from 'fs/promises';
 
 vi.mock('fs/promises');
@@ -69,7 +68,12 @@ describe('Scanner', () => {
       const scanner = new Scanner();
 
       vi.mocked(readdir).mockResolvedValue([
-        { name: 'link', isFile: () => false, isDirectory: () => false, isSymbolicLink: () => true },
+        {
+          name: 'link',
+          isFile: () => false,
+          isDirectory: () => false,
+          isSymbolicLink: () => true,
+        },
         {
           name: 'file.txt',
           isFile: () => true,
@@ -88,7 +92,9 @@ describe('Scanner', () => {
 
     it('should handle readdir errors', async () => {
       const scanner = new Scanner();
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
 
       vi.mocked(readdir).mockRejectedValue(new Error('Read error'));
 
@@ -104,7 +110,9 @@ describe('Scanner', () => {
 
     it('should handle stat errors', async () => {
       const scanner = new Scanner();
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
 
       vi.mocked(readdir).mockResolvedValue([
         {
@@ -128,9 +136,13 @@ describe('Scanner', () => {
 
     it('should not log EACCES or EPERM errors', async () => {
       const scanner = new Scanner();
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
 
-      vi.mocked(readdir).mockRejectedValue(new Error('EACCES: permission denied'));
+      vi.mocked(readdir).mockRejectedValue(
+        new Error('EACCES: permission denied')
+      );
 
       await scanner.scan('/test', []);
 

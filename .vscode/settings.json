@@ -1,3 +1,18 @@
 {
-  "cSpell.words": ["Assayag", "Deleter", "maxtimeout", "mintimeout", "orassayag"]
+  "cSpell.words": [
+    "Assayag",
+    "Deleter",
+    "extname",
+    "maxtimeout",
+    "mintimeout",
+    "orassayag",
+    "photoslibrary"
+  ],
+  "cSpell.ignorePaths": [
+    "coverage",
+    "node_modules",
+    "dist",
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml"
+  ]
 }

@@ -2,17 +2,25 @@
 
 This document provides detailed instructions for developers working on the Similar Files Detector project.
 
+## Last Updated
+
+- **Date**: 2026-06-02
+- **Version**: 1.0.0
+
 ## Table of Contents
 
 - [Project Overview](#project-overview)
 - [Architecture](#architecture)
 - [Setup Instructions](#setup-instructions)
+- [Available Commands](#available-commands)
 - [Development Workflow](#development-workflow)
 - [Module Documentation](#module-documentation)
 - [Testing Strategy](#testing-strategy)
 - [Deployment](#deployment)
 - [Troubleshooting](#troubleshooting)
 - [Best Practices](#best-practices)
+- [Extending the Application](#extending-the-application)
+- [External Resources](#external-resources)
 
 ## Project Overview
 
@@ -79,6 +87,24 @@ User Settings (src/settings.ts)
 
 ## Setup Instructions
 
+## Setup and Usage Instructions
+
+To get started with development:
+
+1. **Clone the Repository**: `git clone <repo-url>`
+2. **Install Dependencies**: Run `pnpm install`.
+3. **Build**: Run `pnpm build`.
+4. **Test**: Run `pnpm test` to ensure everything is working.
+5. **Configure**: Adjust `src/settings.ts` as needed.
+6. **Run**: Execute `pnpm start` for a dry run.
+
+## System Requirements
+
+- **Node.js**: v18.0.0 or higher
+- **pnpm**: v8.0.0 or higher
+- **RAM**: 1GB minimum
+- **OS**: Windows, macOS, or Linux
+
 ### Prerequisites
 
 - **Node.js** v18.0.0 or higher
@@ -86,6 +112,12 @@ User Settings (src/settings.ts)
 - **Git** (optional, recommended for version control)
 
 ### Initial Setup
+
+## Install Dependencies
+
+```bash
+pnpm install
+```
 
 ```bash
 # 1. Clone the repository (if applicable)
@@ -124,6 +156,23 @@ Essential extensions:
   "typescript.tsdk": "node_modules/typescript/lib"
 }
 ```
+
+## Available Commands
+
+The following commands are available for development and execution.
+
+### Development Commands
+
+- `pnpm build`: Compiles TypeScript to JavaScript in `dist/`.
+- `pnpm lint`: Runs ESLint to check for code quality issues.
+- `pnpm format`: Runs Prettier to format the codebase.
+- `pnpm test`: Executes all unit tests once.
+- `pnpm test:watch`: Runs tests in watch mode for active development.
+
+### Running Scripts
+
+- `pnpm start`: Runs the application using the current settings in `src/settings.ts`.
+- `node dist/main.js`: Runs the production build.
 
 ## Development Workflow
 
@@ -268,6 +317,21 @@ Ensure you have read access to the `scanPath`. The tool will report specific fil
 
 - **Dry Mode**: Always default `dryMode` to `true` in code and documentation.
 - **Path Validation**: Use `path.resolve` and `path.normalize` to ensure paths remain within intended boundaries.
+
+## Extending the Application
+
+To add new functionality:
+
+1. **New Similarity Logic**: Modify `src/core/comparator.ts` to add or refine comparison rules.
+2. **New Ignore Patterns**: Update `src/utils/pathUtils.ts` or add to `settings.ignorePaths`.
+3. **New CLI Features**: Enhance `src/main.ts` or add a new module in `src/core/` to handle more complex scenarios.
+
+## External Resources
+
+- [Node.js Documentation](https://nodejs.org/en/docs/)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
+- [pnpm Documentation](https://pnpm.io/motivation)
+- [Vitest Guide](https://vitest.dev/guide/)
 
 ## Author
 

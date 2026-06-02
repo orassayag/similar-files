@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { DuplicateFinder } from '../duplicateFinder';
+import { DuplicateFinder } from '..';
 import { FileInfo } from '../../types';
 
 describe('DuplicateFinder', () => {
